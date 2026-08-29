@@ -1,20 +1,20 @@
 # 02. Nonlinear 6-DOF Quadrotor Dynamics
 
-The quadrotor is modeled as a nonlinear 6-degree-of-freedom (6-DOF) rigid-body system based on the Newton–Euler formulation[cite: 2]. This mathematical model captures the translational motion, rotational motion, gyroscopic effects of the rotating propellers, and the inherent coupling between translation and rotation[cite: 2]. 
+The quadrotor is modeled as a nonlinear 6-degree-of-freedom (6-DOF) rigid-body system based on the Newton–Euler formulation. This mathematical model captures the translational motion, rotational motion, gyroscopic effects of the rotating propellers, and the inherent coupling between translation and rotation. 
 
-## 1. Reference Frames & Kinematic Transformations
+## 1. Reference Frames & Kinematic
 
-To isolate the dynamics for the hierarchical control architecture, the system relies on two primary coordinate frames[cite: 2]:
+To isolate the dynamics for the hierarchical control architecture, the system relies on two primary coordinate frames:
 
-*   **Earth-fixed Inertial Frame ($\mathcal{F}_E = \lbrace O_E, X_E, Y_E, Z_E \rbrace$):** Fixed to the ground using the East-North-Up (ENU) convention[cite: 2]. This frame serves as the global reference for the position controller and trajectory tracking[cite: 2].
-*   **Body-fixed Frame ($\mathcal{F}_B$):** Attached directly to the quadrotor's center of mass, with axes pointing forward ($X_B$), right ($Y_B$), and upward ($Z_B$)[cite: 2]. It is the working frame for the attitude controller, describing thrust, control moments, and angular velocities[cite: 2].
+*   **Earth-fixed Inertial Frame ($\mathcal{F}_E = \lbrace O_E, X_E, Y_E, Z_E \rbrace$):** Fixed to the ground using the East-North-Up (ENU) convention. This frame serves as the global reference for the position controller and trajectory tracking.
+*   **Body-fixed Frame ($\mathcal{F}_B$):** Attached directly to the quadrotor's center of mass, with axes pointing forward ($X_B$), right ($Y_B$), and upward ($Z_B$). It is the working frame for the attitude controller, describing thrust, control moments, and angular velocities.
 
 <p align="center">
   <img src="../pics/reference_frames.jpg" alt="Drone Orientation and Reference Frames" width="700">
 </p>
 <p align="center"><i>Figure 1: Drone Orientation and Reference Frames.</i></p>
 
-Vectors are mapped between the body-fixed frame and the inertial frame using the rotation matrix $R(\phi, \theta, \psi)$, parameterized by the Euler angles $[\phi, \theta, \psi]^T$ representing roll, pitch, and yaw using a standard Z-Y-X rotation sequence[cite: 2]. 
+Vectors are mapped between the body-fixed frame and the inertial frame using the rotation matrix $R(\phi, \theta, \psi)$, parameterized by the Euler angles $[\phi, \theta, \psi]^T$ representing roll, pitch, and yaw using a standard Z-Y-X rotation sequence. 
 
 <p align="center">
   <img src="../pics/euler_angle_formation.jpg" alt="Euler Angle Formation via Successive Rotations" width="700">
@@ -23,22 +23,22 @@ Vectors are mapped between the body-fixed frame and the inertial frame using the
 
 ## 2. Full State Vector
 
-The complete dynamic state of the quadrotor is encapsulated in a 12-dimensional state vector[cite: 2]:
+The complete dynamic state of the quadrotor is encapsulated in a 12-dimensional state vector:
 
 $$
 \mathbf{x} = \begin{bmatrix} X & Y & Z & u & v & w & \phi & \theta & \psi & p & q & r \end{bmatrix}^{T}
 $$
 
-*   $(X,Y,Z)$: Global position in the inertial frame[cite: 2].
-*   $(u,v,w)$: Linear velocity components in the body frame[cite: 2].
-*   $(\phi,\theta,\psi)$: Euler attitude angles[cite: 2].
-*   $(p,q,r)$: Angular velocities in the body frame[cite: 2].
+*   $(X,Y,Z)$: Global position in the inertial frame.
+*   $(u,v,w)$: Linear velocity components in the body frame.
+*   $(\phi,\theta,\psi)$: Euler attitude angles.
+*   $(p,q,r)$: Angular velocities in the body frame.
 
 ## 3. Newton-Euler Dynamic Equations
 
 ### 3.1 Translational Dynamics (Body Frame)
 
-The dynamic equations expressed in the body-fixed coordinate frame constitute the fundamental basis for the design of the attitude controller (inner loop)[cite: 2]. The nonlinear coupling between translational and rotational motions is explicitly revealed[cite: 2]. Following the Newton–Euler formulation, the translational dynamics of the quadrotor expressed in the body frame can be written as[cite: 2]:
+The dynamic equations expressed in the body-fixed coordinate frame constitute the fundamental basis for the design of the attitude controller (inner loop). The nonlinear coupling between translational and rotational motions is explicitly revealed. Following the Newton–Euler formulation, the translational dynamics of the quadrotor expressed in the body frame can be written as:
 
 $$
 \dot{u} = vr - wq + g\sin(\theta)
@@ -52,11 +52,11 @@ $$
 \dot{w} = uq - vp - g\cos(\theta)\cos(\phi) + \frac{U_1}{m}
 $$
 
-where $u, v, w$ denote the linear velocity components expressed in the body frame, $p, q, r$ are the angular velocity components, $g$ is the gravitational acceleration, and $U_1$ represents the total thrust force generated by the four rotors[cite: 2].
+where $u, v, w$ denote the linear velocity components expressed in the body frame, $p, q, r$ are the angular velocity components, $g$ is the gravitational acceleration, and $U_1$ represents the total thrust force generated by the four rotors.
 
 ### 3.2 Rotational Dynamics (Body Frame)
 
-The rotational dynamics of the quadrotor are derived from Euler's equations for rigid-body rotation[cite: 2]. The angular acceleration is expressed as[cite: 2]:
+The rotational dynamics of the quadrotor are derived from Euler's equations for rigid-body rotation. The angular acceleration is expressed as:
 
 $$
 \dot{p} = \frac{[I_{yy} - I_{zz}]qr - J_{TP}q\Omega + U_2}{I_{xx}}
@@ -70,29 +70,29 @@ $$
 \dot{r} = \frac{[I_{xx} - I_{yy}]pq + U_4}{I_{zz}}
 $$
 
-where $I_{xx}, I_{yy}, I_{zz}$ denote the principal moments of inertia of the quadrotor[cite: 2]. $\mathbf{J}_r$ represents the inertia tensor of the UAV with respect to the body axes, taking the general form[cite: 2]:
+where $I_{xx}, I_{yy}, I_{zz}$ denote the principal moments of inertia of the quadrotor. $\mathbf{J}_r$ represents the inertia tensor of the UAV with respect to the body axes, taking the general form:
 
 $$
 \mathbf{J}_r = \begin{bmatrix} I_{xx} & -I_{xy} & -I_{xz} \\ -I_{yx} & I_{yy} & I_{yz} \\ -I_{zx} & -I_{zy} & I_{zz} \end{bmatrix}
 $$
 
-For control system design purposes, assuming a uniform mass distribution and negligible products of inertia, the inertia matrix is approximated as[cite: 2]:
+For control system design purposes, assuming a uniform mass distribution and negligible products of inertia, the inertia matrix is approximated as:
 
 $$
 \mathbf{J}_r = diag(I_{xx}, I_{yy}, I_{zz})
 $$
 
-$U_2, U_3, U_4$ are the control torques associated with the roll, pitch, and yaw motion, and $J_{TP}$ represents the total angular momentum of the rotating propellers[cite: 2]. The total rotor angular momentum is defined as[cite: 2]:
+$U_2, U_3, U_4$ are the control torques associated with the roll, pitch, and yaw motion, and $J_{TP}$ represents the total angular momentum of the rotating propellers. The total rotor angular momentum is defined as:
 
 $$
 J_{TP} = \mathbf{J}_r(\Omega_1 - \Omega_2 + \Omega_3 - \Omega_4)
 $$
 
-This term captures the gyroscopic effect introduced by the counter-rotating propellers, playing a non-negligible role in the rotational dynamics during yaw maneuvers or rapid changes in angular velocity[cite: 2].
+This term captures the gyroscopic effect introduced by the counter-rotating propellers, playing a non-negligible role in the rotational dynamics during yaw maneuvers or rapid changes in angular velocity.
 
 ### 3.3 Translational Dynamics (Inertial Frame)
 
-The dynamic equations expressed in the inertial coordinate frame are employed for the design of the position controller (outer loop)[cite: 2]. In this frame, the translational accelerations along the inertial axes are given by[cite: 2]:
+The dynamic equations expressed in the inertial coordinate frame are employed for the design of the position controller (outer loop). In this frame, the translational accelerations along the inertial axes are given by:
 
 $$
 \ddot{X} = \frac{(\cos\phi\sin\theta\cos\psi + \sin\phi\sin\psi) \cdot U_1}{m}
@@ -106,11 +106,11 @@ $$
 \ddot{Z} = -g + \cos\phi\cos\theta \cdot \frac{U_1}{m}
 $$
 
-These equations explicitly demonstrate that the translational motion in the inertial frame is directly influenced by the quadrotor attitude through the Euler angles $\phi, \theta,$ and $\psi$[cite: 2]. Accurate attitude tracking is therefore a prerequisite for precise position control[cite: 2].
+These equations explicitly demonstrate that the translational motion in the inertial frame is directly influenced by the quadrotor attitude through the Euler angles $\phi, \theta,$ and $\psi$. Accurate attitude tracking is therefore a prerequisite for precise position control.
 
 ## 4. Control Allocation Mapping
 
-The system is actuated by four virtual control inputs mapped from the squared angular velocities of the four rotors ($\Omega_i^2$)[cite: 2]:
+The system is actuated by four virtual control inputs mapped from the squared angular velocities of the four rotors ($\Omega_i^2$):
 
 ```math
 \begin{bmatrix}
@@ -134,6 +134,6 @@ c_Tl & 0 & -c_Tl & 0 \\
 \end{bmatrix}
 ```
 
-*(Where $c_T$ is the thrust coefficient, $c_Q$ is the drag coefficient, and $l$ is the quadrotor arm length[cite: 2]).*
+*(Where $c_T$ is the thrust coefficient, $c_Q$ is the drag coefficient, and $l$ is the quadrotor arm length).*
 
 This resulting 6-DOF nonlinear model serves as the foundational physics engine for the NMPC prediction horizon and the Reinforcement Learning environment.
