@@ -18,7 +18,7 @@ A hierarchical and synchronous trajectory-tracking framework for a quadrotor UAV
 **Planner (RRT*)** → **Feedback Linearization** → **Safe RL-NMPC (NMPC + TD3)** → **Quadrotor**
 
 <div align="center">
-  <img src="pics/control_architecture.png" alt="Quadrotor RL-NMPC Control Architecture" width="850">
+  <img src="pics/control_architecture.jpg" alt="Quadrotor RL-NMPC Control Architecture" width="850">
   <br><em>Overall dual-actor control architecture.</em>
 </div>
 
@@ -76,7 +76,7 @@ U_1 & U_2 & U_3 & U_4
 $$
 
 <div align="center">
-  <img src="pics/reference_frames.png" alt="Reference Frames" width="650">
+  <img src="pics/reference_frames.jpg" alt="Reference Frames" width="650">
   <br><em>Earth-fixed and body-fixed reference frames.</em>
 </div>
 
@@ -128,14 +128,14 @@ The TD3 agent was trained exclusively on a standard expanding **Spiral Trajector
 │
 ├── pics/
 │   ├── sim/
-│   │   ├── train_convergence.png
+│   │   ├── train_convergence.jpg
 │   │   ├── sim_tracking_spiral.gif
 │   │   └── sim_tracking_zero_shot.gif
-│   ├── control_architecture.png
-│   ├── euler_angle_formation.png
-│   ├── reference_frames.png
-│   ├── actor_critic_network.png
-│   └── mdp_diagram.png
+│   ├── control_architecture.jpg
+│   ├── euler_angle_formation.jpg
+│   ├── reference_frames.jpg
+│   ├── actor_critic_network.jpg
+│   └── mdp_diagram.jpg
 │
 ├── src/
 │   ├── DroneRLEnv.m            # Custom MATLAB RL Environment
