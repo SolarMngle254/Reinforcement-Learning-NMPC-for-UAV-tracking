@@ -9,9 +9,12 @@ Reinforcement Learning for quadrotor attitude compensation requires continuous a
 The learning environment is formulated as a fully observable MDP defined by the tuple $M = \{S, A, P, R, \gamma\}$. 
 
 <p align="center">
-  <img src="MDP_A-E_Loop.jpg" alt="Markov Decision Process and Agent-Environment Loop" width="700">
+  <img src="../pics/MDP_A-E_Loop.jpg" alt="Markov Decision Process and Agent-Environment Loop" width="700">
 </p>
-<p align="center"><i>Figure 1: The Markov Decision Process state transition graph and the Agent-Environment interaction loop.</i></p>
+
+<p align="center">
+  <i>Figure 1: The Markov Decision Process state transition graph and the Agent-Environment interaction loop.</i>
+</p>
 
 At each time step, the agent observes the state $S_t$, executes an action $A_t$, and the environment returns a reward $R_t$ alongside the next state $S_{t+1}$. For the quadrotor residual control task, this MDP is structured as follows:
 
