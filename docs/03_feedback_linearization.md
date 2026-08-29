@@ -7,7 +7,7 @@ The position controller functions as the outer loop of the synchronous cascaded 
 This controller directly computes the total thrust $U_1$ (sent directly to the quadrotor plant) and the reference roll and pitch angles $\phi_{ref}, \theta_{ref}$ (sent to the inner-loop NMPC).
 
 <p align="center">
-  <img src="../pics/control_architecture.jpg" alt="Control Architecture Signal Flow" width="800">
+  <img src="../pics/FL_Block.jpg" alt="Control Architecture Signal Flow" width="800">
 </p>
 <p align="center"><i>Figure 1: Signal flow diagram illustrating the input-output interface of the Feedback Linearization controller.</i></p>
 
