@@ -15,11 +15,11 @@
 
 A hierarchical and synchronous trajectory-tracking framework for a quadrotor UAV:
 
-**Planner (RRT*)** → **Feedback Linearization** → **Safe RL-NMPC (NMPC + TD3)** → **Quadrotor**
+**Traj Gen** → **Feedback Linearization** → **Safe RL-NMPC (NMPC + TD3)** → **Quadrotor**
 
 <div align="center">
   <img src="pics/control_architecture.jpg" alt="Quadrotor RL-NMPC Control Architecture" width="850">
-  <br><em>Overall dual-actor control architecture.</em>
+  <br><em>Overall control architecture.</em>
 </div>
 
 ---
