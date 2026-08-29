@@ -1,4 +1,4 @@
-# 01. System Architecture & Synchronous Loop
+# 01. System Architecture
 
 ## 1.1 Overview
 
