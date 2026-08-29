@@ -2,6 +2,11 @@
 
 ## 1. Residual Control Topology
 
+<p align="center">
+  <img src="../pics/inner_loop_residual_topology.jpg" alt="Parallel Residual Control Topology" width="600">
+</p>
+<p align="center"><i>Figure 1: The Inner Loop Parallel Topology, showcasing the constraint-aware NMPC baseline and the RL residual compensator.</i></p>
+
 The inner loop of the cascaded architecture handles the quadrotor's fast rotational dynamics. Because the attitude dynamics are highly nonlinear and subject to strict actuator constraints, a standard linear controller is insufficient. To achieve high-precision tracking while mitigating unmodeled aerodynamic disturbances, this architecture implements a **Parallel Residual Control Topology**.
 
 The inner loop consists of two distinct but concurrent modules:
