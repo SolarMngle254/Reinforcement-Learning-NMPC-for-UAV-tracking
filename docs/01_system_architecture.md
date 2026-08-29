@@ -14,15 +14,9 @@ The proposed framework integrates:
 Unlike the previous iteration of this project which utilized separated bandwidths for the position and attitude dynamics, the current architecture employs a flattened, fully synchronous control loop.
 
 <div align="center">
-  <img src="../pics/control_architecture.png" alt="Quadrotor RL-NMPC Control System" width="850">
+  <img src="../pics/control_architecture.jpg" alt="Quadrotor RL-NMPC Control System" width="850">
   <br><em>Figure: Block diagram of the proposed Safe RL-NMPC quadrotor control system.</em>
 </div>
-
-> **[Image note for `control_architecture.png`: NEW FIGURE REQUIRED]**
->
-> Based on the previous architecture diagram, change the **"RRT* Planner"** block to **"Trajectory Generator"**. Keep the **"Feedback Linearization"** block unchanged. Replace the **"LPV-MPC"** block with two parallel blocks: **"NMPC"** and **"TD3 RL Agent"**. The outputs of these two blocks ($U_{NMPC}$ and $\Delta U$) should enter a **Sum** block to generate $U_{final}$ before being sent to the **"Plant Model"**.
-
----
 
 ## 1.2 Control Architecture
 
