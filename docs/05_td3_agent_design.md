@@ -36,7 +36,7 @@ An episode is terminated immediately with a static penalty of $-1000$ if the spa
 ## 3. Actor-Critic Foundation
 
 <p align="center">
-  <img src="image_16b644.png" alt="Actor-Critic Architecture with Backpropagation" width="700">
+  <img src="../pics/Actor-Critic.jpg" alt="Actor-Critic Architecture with Backpropagation" width="700">
 </p>
 <p align="center"><i>Figure 2: Fundamental Actor-Critic architecture illustrating the Temporal-Difference (TD) error evaluation and backpropagation loop.</i></p>
 
