@@ -10,14 +10,14 @@ To isolate the dynamics for the hierarchical control architecture, the system re
 *   **Body-fixed Frame ($\mathcal{F}_B$):** Attached directly to the quadrotor's center of mass, with axes pointing forward ($X_B$), right ($Y_B$), and upward ($Z_B$)[cite: 2]. It is the working frame for the attitude controller, describing thrust, control moments, and angular velocities[cite: 2].
 
 <p align="center">
-  <img src="../pics/reference_frames.png" alt="Drone Orientation and Reference Frames" width="700">
+  <img src="../pics/reference_frames.jpg" alt="Drone Orientation and Reference Frames" width="700">
 </p>
 <p align="center"><i>Figure 1: Drone Orientation and Reference Frames.</i></p>
 
 Vectors are mapped between the body-fixed frame and the inertial frame using the rotation matrix $R(\phi, \theta, \psi)$, parameterized by the Euler angles $[\phi, \theta, \psi]^T$ representing roll, pitch, and yaw using a standard Z-Y-X rotation sequence[cite: 2]. 
 
 <p align="center">
-  <img src="../pics/euler_angle_formation.png" alt="Euler Angle Formation via Successive Rotations" width="700">
+  <img src="../pics/euler_angle_formation.jpg" alt="Euler Angle Formation via Successive Rotations" width="700">
 </p>
 <p align="center"><i>Figure 2: Euler Angle Formation via Successive Rotations.</i></p>
 
@@ -112,8 +112,28 @@ These equations explicitly demonstrate that the translational motion in the iner
 
 The system is actuated by four virtual control inputs mapped from the squared angular velocities of the four rotors ($\Omega_i^2$)[cite: 2]:
 
-$$ 
-\begin{bmatrix} U_1 \\ U_2 \\ U_3 \\ U_4 \end{bmatrix} = \begin{bmatrix} c_T & c_T & c_T & c_T \\ 0 & -c_Tl & 0 & c_Tl \\ c_Tl & 0 & -c_Tl & 0 \\ -c_Q & c_Q & -c_Q & c_Q \end{bmatrix} \begin{bmatrix} \Omega_1^2 \\ \Omega_2^2 \\ \Omega_3^2 \\ \Omega_4^2 \end{bmatrix} 
-$$
+```math
+\begin{bmatrix}
+U_1 \\
+U_2 \\
+U_3 \\
+U_4
+\end{bmatrix}
+=
+\begin{bmatrix}
+c_T & c_T & c_T & c_T \\
+0 & -c_Tl & 0 & c_Tl \\
+c_Tl & 0 & -c_Tl & 0 \\
+-c_Q & c_Q & -c_Q & c_Q
+\end{bmatrix}
+\begin{bmatrix}
+\Omega_1^2 \\
+\Omega_2^2 \\
+\Omega_3^2 \\
+\Omega_4^2
+\end{bmatrix}
+```
 
-*(Where $c_T$ is the thrust coefficient, $c_Q$ is the drag coefficient, and $l$ is the quadrotor arm length[cite: 2]).* This resulting 6-DOF nonlinear model serves as the foundational physics engine for the NMPC prediction horizon and the Reinforcement Learning environment.
+*(Where $c_T$ is the thrust coefficient, $c_Q$ is the drag coefficient, and $l$ is the quadrotor arm length[cite: 2]).*
+
+This resulting 6-DOF nonlinear model serves as the foundational physics engine for the NMPC prediction horizon and the Reinforcement Learning environment.
