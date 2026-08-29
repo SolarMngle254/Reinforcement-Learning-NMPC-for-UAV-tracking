@@ -47,7 +47,7 @@ The TD3 algorithm builds upon the Actor-Critic architecture. The Actor network m
 To resolve the instability of standard Actor-Critic setups, the TD3 architecture introduces twin critics, delayed updates, and target networks.
 
 <p align="center">
-  <img src="image_16b56d.png" alt="Detailed TD3 Architecture" width="800">
+  <img src="../pics/TD3-Architecture.jpg" alt="Detailed TD3 Architecture" width="800">
 </p>
 <p align="center"><i>Figure 3: Detailed TD3 Architecture featuring Twin Target Critics, Target Actor, and the Experience Pool.</i></p>
 
