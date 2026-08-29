@@ -34,9 +34,9 @@ By solving this constrained NLP problem, the NMPC guarantees that the baseline c
 
 ## 3. The Sim-to-Real Gap and RL Adaptability
 
-While the NMPC provides a principled framework for constraint handling and stability guarantees, its performance inherently deteriorates under model mismatches[cite: 5]. The nonlinear solver relies on the nominal mathematical model $f_d(x, u)$, which neglects complex, unmodeled aerodynamics such as blade flapping, high-speed cornering drag, and ground effects.
+While the NMPC provides a principled framework for constraint handling and stability guarantees, its performance inherently deteriorates under model mismatches. The nonlinear solver relies on the nominal mathematical model $f_d(x, u)$, which neglects complex, unmodeled aerodynamics such as blade flapping, high-speed cornering drag, and ground effects.
 
-Reinforcement Learning (RL) optimizes control policies directly from interaction data, adapting effectively to unmodeled dynamics without requiring an exact analytical model[cite: 5]. However, pure model-free RL lacks formal guarantees of safety and recursive feasibility[cite: 5]. To bridge these paradigms, the RL agent is integrated strictly as a residual compensator.
+Reinforcement Learning (RL) optimizes control policies directly from interaction data, adapting effectively to unmodeled dynamics without requiring an exact analytical model. However, pure model-free RL lacks formal guarantees of safety and recursive feasibility. To bridge these paradigms, the RL agent is integrated strictly as a residual compensator.
 
 ## 4. Safe Action Fusion 
 
@@ -44,4 +44,4 @@ To extract the adaptability of RL without compromising the mathematical rigor of
 
 $$ \mathbf{U}_{final} = \mathbf{U}_{NMPC} + \text{clip}(\Delta\mathbf{U}_{RL}, -\epsilon, \epsilon) $$
 
-By restricting the RL output to a narrow operational band $[-\epsilon, \epsilon]$, the system enforces practical input-to-state stability (ISS)[cite: 5]. The quadrotor remains within the safe Region of Attraction defined by the NMPC constraints, while the RL agent neutralizes the residual nonlinear errors. To train an agent capable of outputting this precise compensation, we formulate a fully observable Markov Decision Process (MDP) and employ the Twin Delayed DDPG (TD3) algorithm, detailed in Section 05.
+By restricting the RL output to a narrow operational band $[-\epsilon, \epsilon]$, the system enforces practical input-to-state stability (ISS). The quadrotor remains within the safe Region of Attraction defined by the NMPC constraints, while the RL agent neutralizes the residual nonlinear errors. To train an agent capable of outputting this precise compensation, we formulate a fully observable Markov Decision Process (MDP) and employ the Twin Delayed DDPG (TD3) algorithm, detailed in Section 05.
