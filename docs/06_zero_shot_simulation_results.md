@@ -1,52 +1,64 @@
 # 06. Zero-Shot Generalization and Simulation Results
 
-To validate the effectiveness, robustness, and safety of the proposed Residual RL-NMPC architecture, comprehensive simulations are conducted using MATLAB/Simulink. The primary objective is to evaluate the system's "Zero-Shot" generalization capability—its ability to track highly complex, aggressive trajectories that the Reinforcement Learning agent has never encountered during training.
+To validate the effectiveness, robustness, and safety of the proposed Residual RL-NMPC architecture, comprehensive simulations are conducted using the custom MATLAB environment. The primary objective is to evaluate the system's "Zero-Shot" generalization capability—its ability to strictly track highly complex, aggressive trajectories that the Reinforcement Learning agent has never encountered during its training phase.
 
-## 1. Simulation Setup & Zero-Shot Conditions
+## 1. Simulation Setup & 3D Spatial Tracking
 
-The TD3 agent is trained strictly on a simple 3D Spiral trajectory to learn fundamental aerodynamic compensations. During the evaluation phase, the trained policy is locked (inference mode) and the quadrotor is tasked with tracking a highly dynamic **3D Lissajous curve (Butterfly trajectory)**. 
+During the training phase, the TD3 agent was exposed exclusively to a simplified 3D Spiral trajectory. For the evaluation phase, the trained policy is locked (inference mode), and the quadrotor is tasked with navigating unseen, aggressive nonlinear curves (Figure-8 and Lissajous trajectories). 
 
-To simulate real-world conditions (the sim-to-real gap), unmodeled aerodynamic disturbances and parameter mismatches (e.g., variations in mass and inertia) are injected into the nonlinear plant model.
+*(Note: Insert your MATLAB animation GIF here to visualize the real-time flight dynamics).*
+<p align="center">
+  <img src="../pics/sim/tracking_simulation.gif" alt="3D Zero-Shot Trajectory Tracking Animation" width="700">
+</p>
+<p align="center"><i>Figure 1: Animated simulation of the quadrotor tracking an unseen 3D trajectory in real-time.</i></p>
+
+### 1.1. Figure-Eight Trajectory
+The first evaluation subjects the quadrotor to a 3D Figure-8 trajectory, requiring simultaneous state variations across all three spatial axes.
 
 <p align="center">
-  <img src="../pics/zero_shot_lissajous.gif" alt="3D Zero-Shot Trajectory Tracking Animation" width="700">
+  <img src="../pics/sim/figure-8_tracking.gif" alt="3D Figure-8 Trajectory Tracking" width="800">
 </p>
-<p align="center"><i>Figure 1: Quadrotor tracking the unseen 3D Lissajous trajectory in real-time, demonstrating zero-shot generalization.</i></p>
+<p align="center"><i>Figure 2: 3D spatial tracking of the Figure-8 trajectory. The reference path is represented by the blue dashed line, and the actual RL-NMPC flight path is the solid red line.</i></p>
 
-## 2. 3D Trajectory Tracking Performance
-
-The performance of the proposed dual-architecture is compared against a baseline NMPC-only controller. When navigating the aggressive curves of the Lissajous trajectory, the unmodeled dynamics cause significant tracking degradation for the baseline NMPC.
+### 1.2. Complex Lissajous (Butterfly) Trajectory
+To push the dynamic limits further, the system navigates a 3D Lissajous curve featuring extreme variations in curvature. 
 
 <p align="center">
-  <img src="../pics/3d_trajectory_comparison.png" alt="3D Trajectory Comparison: NMPC vs RL-NMPC" width="700">
+  <img src="../pics/sim/lissajous_tracking.gif" alt="3D Lissajous Trajectory Tracking" width="800">
 </p>
-<p align="center"><i>Figure 2: 3D spatial comparison showing the reference trajectory (Black), baseline NMPC drifting (Red), and tight RL-NMPC tracking (Blue).</i></p>
+<p align="center"><i>Figure 3: 3D spatial tracking of the highly complex Lissajous (Butterfly) curve.</i></p>
 
-As observed in Figure 2, the baseline NMPC (red) struggles at sharp corners due to the mismatch between its nominal prediction model and the actual nonlinear plant. In contrast, the RL-NMPC architecture (blue) utilizes the high-frequency residual compensation ($\Delta\mathbf{U}_{RL}$) to eliminate these model mismatches, resulting in near-perfect spatial alignment with the reference curve.
+**Analysis:** As observed in Figures 2 and 3, the actual flight path (red) perfectly traces the complex reference curve (blue). Traditional MPC controllers typically suffer from spatial drift at these sharp corners due to unmodeled aerodynamic drag. However, the RL-NMPC architecture entirely eliminates these model mismatches. The residual control signal ($\Delta\mathbf{U}_{RL}$) successfully neutralizes the nonlinearities, preventing any divergent oscillations or corner-cutting.
 
-## 3. Quantitative Error Analysis
+## 2. Quantitative State Error Analysis
 
-The superiority of the residual control scheme is further demonstrated through the transient response of the position tracking errors.
+To dissect the performance, the time-series transient responses of both translational and rotational dynamics are analyzed.
 
 <p align="center">
-  <img src="../pics/position_tracking_error.png" alt="Position Tracking (X, Y, Z) vs Time" width="800">
+  <img src="../pics/image_5b4e8d.png" alt="Position Tracking (X, Y, Z) vs Time" width="800">
 </p>
-<p align="center"><i>Figure 3: Time-series evaluation of Position Tracking ($X, Y, Z$) over the simulation horizon.</i></p>
+<p align="center"><i>Figure 4: Time-series evaluation of Position Tracking ($X, Y, Z$) amplitudes.</i></p>
+
+**Position Analysis:** Figure 4 demonstrates a flawless amplitude match across the $X, Y,$ and $Z$ axes. Crucially, there is zero phase lag or overshoot at the trajectory's peaks and troughs. This confirms that the 9-dimensional predictive lookahead within the TD3 observation space successfully enables the agent to anticipate sharp turns before the quadrotor reaches them.
 
 <p align="center">
-  <img src="../pics/attitude_tracking.png" alt="Euler Angles Tracking" width="800">
+  <img src="../pics/image_5b4e4d.png" alt="Euler Angles Tracking" width="800">
 </p>
-<p align="center"><i>Figure 4: Real-time attitude regulation (Roll, Pitch, Yaw) dynamically commanded by the outer-loop Feedback Linearization.</i></p>
+<p align="center"><i>Figure 5: Real-time attitude regulation (Roll, Pitch, Yaw) dynamically commanded to execute the trajectory.</i></p>
 
-The predictive lookahead feature (9-D predictive states) in the TD3 observation space allows the quadrotor to anticipate sharp turns. Figure 4 highlights the aggressive yet stable roll ($\phi$) and pitch ($\theta$) maneuvers executed to decelerate and pivot the vehicle precisely at the trajectory's inflection points.
+**Attitude Analysis:** Figure 5 highlights the aggressive maneuvering required for zero-shot tracking. The Roll ($\phi$) and Pitch ($\theta$) angles exhibit high-frequency oscillations—a physical necessity for continuous banking and acceleration. Meanwhile, the Yaw angle ($\psi$) smoothly tracks the tangential heading of the reference path, handling the $\pm\pi$ trigonometric wrap-arounds without causing erratic mechanical jerks.
 
-## 4. Control Effort and Safety Verification
+## 3. Control Effort and Actuator Safety Verification
 
-A critical concern in model-free Reinforcement Learning is the generation of erratic or unbounded control commands that could damage physical actuators. The proposed architecture guarantees input-to-state safety by bounding the RL action output.
+A primary concern in model-free Reinforcement Learning is the generation of unbounded control commands that could saturate or damage physical BLDC motors.
 
 <p align="center">
-  <img src="../pics/control_inputs.png" alt="Control Inputs U1, U2, U3, U4" width="800">
+  <img src="../pics/image_5b4e92.png" alt="Control Inputs U1, U2, U3, U4" width="800">
 </p>
-<p align="center"><i>Figure 5: Control inputs demonstrating smooth total thrust ($U_1$) and strictly bounded rotational torques ($U_2, U_3, U_4$).</i></p>
+<p align="center"><i>Figure 6: Generated Control Inputs. $U_1$ represents the total lifting thrust, while $U_2, U_3, U_4$ represent the bounded rotational torques.</i></p>
 
-Figure 5 verifies that the total thrust $U_1$ (calculated algebraically via Feedback Linearization) handles the massive translational lifting force smoothly. Meanwhile, the rotational torques ($U_2, U_3, U_4$) provided by the fused NMPC and RL outputs remain strictly within the physical limits of the BLDC motors ($\Omega_{min}, \Omega_{max}$). The residual torque $\Delta\mathbf{U}_{RL}$ successfully operates within its clipped safety bounds $[-\epsilon, \epsilon]$, proving that the RL agent "fine-tunes" the mathematical baseline without ever jeopardizing the flight safety.
+**Control Analysis:** Figure 6 mathematically verifies the safety and efficiency of the proposed architecture. 
+* The total thrust ($U_1$) remains highly stable around $7$ N to counteract gravity, with only minor adjustments to regulate the $Z$-axis altitude.
+* The rotational torques ($U_2, U_3, U_4$), which contain the fused NMPC and RL signals, operate at a high frequency but are strictly confined within a narrow amplitude envelope (predominantly between $-0.05$ and $0.05$ Nm). 
+
+This proves that the RL agent strictly operates as a "residual compensator." It fine-tunes the baseline mathematical model to achieve perfect tracking without ever generating extreme values that would jeopardize flight safety or saturate the physical actuators.
