@@ -1,7 +1,10 @@
+% Author : Le Minh Nhat - K22 HCMUT Electrical & Electronics Faculty
+% Inspiration : https://www.youtube.com/@atvu5238/ (Dat Vu)
+% Date modified: 30/08/2026
 
 function J = attitude_cost_nmpc(u_seq, x_att0, Phi_h, Theta_h, Psi_h, ...
                                 u_prev, hz, Ts, constants, omega_total)
-%ATTITUDE_COST_NMPC  NMPC cost function for UAV attitude control (phi, theta, psi).
+%  ATTITUDE_COST_NMPC  NMPC cost function for UAV attitude control (phi, theta, psi).
 %
 %  u_seq       : control sequence [U2(1); U3(1); U4(1); ... ;
 %                 U2(hz); U3(hz); U4(hz)]
