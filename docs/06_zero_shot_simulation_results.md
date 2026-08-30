@@ -35,14 +35,14 @@ To push the dynamic limits further, the system navigates a 3D Lissajous curve fe
 To dissect the performance, the time-series transient responses of both translational and rotational dynamics are analyzed.
 
 <p align="center">
-  <img src="../pics/image_5b4e8d.png" alt="Position Tracking (X, Y, Z) vs Time" width="800">
+  <img src="../pics/position_tracking.jpg" alt="Position Tracking (X, Y, Z) vs Time" width="800">
 </p>
 <p align="center"><i>Figure 4: Time-series evaluation of Position Tracking ($X, Y, Z$) amplitudes.</i></p>
 
 **Position Analysis:** Figure 4 demonstrates a flawless amplitude match across the $X, Y,$ and $Z$ axes. Crucially, there is zero phase lag or overshoot at the trajectory's peaks and troughs. This confirms that the 9-dimensional predictive lookahead within the TD3 observation space successfully enables the agent to anticipate sharp turns before the quadrotor reaches them.
 
 <p align="center">
-  <img src="../pics/image_5b4e4d.png" alt="Euler Angles Tracking" width="800">
+  <img src="../pics/euler_angle_graph.jpg" alt="Euler Angles Tracking" width="800">
 </p>
 <p align="center"><i>Figure 5: Real-time attitude regulation (Roll, Pitch, Yaw) dynamically commanded to execute the trajectory.</i></p>
 
@@ -53,7 +53,7 @@ To dissect the performance, the time-series transient responses of both translat
 A primary concern in model-free Reinforcement Learning is the generation of unbounded control commands that could saturate or damage physical BLDC motors.
 
 <p align="center">
-  <img src="../pics/image_5b4e92.png" alt="Control Inputs U1, U2, U3, U4" width="800">
+  <img src="../pics/control_input_effort.jpg" alt="Control Inputs U1, U2, U3, U4" width="800">
 </p>
 <p align="center"><i>Figure 6: Generated Control Inputs. $U_1$ represents the total lifting thrust, while $U_2, U_3, U_4$ represent the bounded rotational torques.</i></p>
 
