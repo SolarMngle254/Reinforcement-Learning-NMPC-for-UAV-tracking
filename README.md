@@ -189,12 +189,14 @@ The **NMPC** provides theoretical safety guarantees and constraint satisfaction,
 
 ## 8. References
 
-[1] Dat Vu Tien et al., *"Safe Dual-Actor Reinforcement Learning-Based Nonlinear Model Predictive Control Architecture and Imitation learning for Autonomous Vehicle Longitudinal Control,"* 2024.
+[1] N. Hansen et al., *"TD-MPC2: Scalable, Robust World Models,"* 2023.
 
-[2] N. Hansen et al., *"TD-MPC2: Scalable, Robust World Models,"* 2023.
+[2] J. Choi et al., *"Reinforcement Learning for Safety-Critical Control under Model Uncertainty,"* 2020.
 
-[3] J. Choi et al., *"Reinforcement Learning for Safety-Critical Control under Model Uncertainty,"* 2020.
+[3] Q. Zhao, *"Safe Reinforcement Learning for Dynamical Systems Using Barrier Certificates"*.
 
 [4] S. A. and A. Bemporad, *"Learning Lyapunov Terminal Costs from Data for Complexity Reduction in NMPC,"* International Journal of Robust and Nonlinear Control.
 
 [5] P. Wang, Z. Man, Z. Cao, and J. Zheng, *"Dynamics Modelling and Linear Control of Quadcopter,"* in 2016 International Conference on Advanced Mechatronic Systems (ICAMechS), Melbourne, Australia, 2016.
+
+[6] Z. Wu, *"Tutorial Review of Machine-Learning-based MPC"*.
