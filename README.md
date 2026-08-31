@@ -128,26 +128,33 @@ The TD3 agent was trained exclusively on a standard expanding **Spiral Trajector
 │
 ├── pics/
 │   ├── sim/
-│   │   ├── train_convergence.jpg
-│   │   ├── sim_tracking_spiral.gif
-│   │   └── sim_tracking_zero_shot.gif
+│   │   ├── figure-8_tracking.gif
+│   │   ├── lissajous_tracking.gif
+│   │   └── tracking_simulation.gif
+|   ├── Actor-Critic.jpg
+|   ├── FL_Block.jpg
+|   ├── TD3-Architecture.jpg
+|   ├── U1.jpg
+|   ├── U2.jpg
+|   ├── U3.jpg
+|   ├── U4.jpg
 │   ├── control_architecture.jpg
+|   ├── control_input_effort.jpg
 │   ├── euler_angle_formation.jpg
-│   ├── reference_frames.jpg
-│   ├── actor_critic_network.jpg
-│   └── mdp_diagram.jpg
+|   ├── euler_angle_graph.jpg
+|   ├── inner+loop_residual_topology.jpg
+|   ├── position_tracking.jpg
+│   └── reference_frames.jpg
 │
 ├── src/
 │   ├── DroneRLEnv.m            # Custom MATLAB RL Environment
+|   ├── RL_NMPC_Policy.mat      # Pre-trained TD3 Actor-Critic weights
 │   ├── trajectory_generator.m  # Generates 5 distinct trajectories
 │   ├── train_RL.m              # TD3 Agent Training Script
 │   ├── main_RL_NMPC.m          # Synchronous Closed-loop Simulation
 │   ├── pos_controller.m        # Feedback Linearization (Outer Loop)
 │   ├── attitude_cost_nmpc.m    # NMPC Cost Function
 │   └── nonlinear_drone_model.m # 6-DOF Plant Dynamics (ODE45)
-│
-├── weights/
-│   └── RL_NMPC_Policy.mat      # Pre-trained TD3 Actor-Critic weights
 │
 └── README.md
 ```
